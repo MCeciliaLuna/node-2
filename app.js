@@ -24,7 +24,25 @@ app.post('/crear-usuario',(req,res) => {
   })
 })
 
-app.put
+app.patch('/editar-usuario/:nombre/:apellido', (req,res)=>{ //dos puntos indican un parámetro porque la ruta tiene que saber qué es lo que estoy cambiando
+  const {nombre, apellido} = req.params
+   
+  res.json({
+    mensaje:`usuario @${nombre + apellido} modificado exitosamente`
+  })
+}) //PUT cambia todo el objeto, PATCH cambia un elemento del objeto
+
+app.put('/editar-todo-el-usuario/:nombre/:apellido', (req,res) => {
+  const {nombre, apellido} = req.params;
+  const {edad, altura} = req.body;
+
+  res.json({
+    nombre,
+    apellido, //redunda decir edad:edad, directamente podemos mandar el nombre del parámetro
+    edad,
+    altura
+  })
+})
 
 app.listen(port,() => {
   console.log('Servidor corriendo en puerto ' + port)
