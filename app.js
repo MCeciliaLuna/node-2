@@ -1,6 +1,9 @@
 const express = require('express');
 const req = require('express/lib/request');
 const app = express()
+
+const User = require('./models/usuario')
+
 const port = 8000
 
 app.use(express.json()) //generar un método instantáneo, patra configuraciones solamente
@@ -17,10 +20,20 @@ app.get('/home', (req,res) => {
 
 app.post('/crear-usuario',(req,res) => {
   //console.log(req.body) //trae todo el objeto
-  const {nombre,apellido} = req.body //desestructuramos los datos para pedir sólo 2 de 4
+  const {nombre,apellido, edad, altura} = req.body //desestructuramos los datos para pedir sólo 2 de 4
+
+  const nuevoUsuario = new User({
+    nombre,
+    apellido,
+    edad,
+    edad,
+    altura
+  })
+  const response = await nuevoUsuario.save()
 
   res.json({
-    mensaje: `usuario @${nombre + apellido} creado exitosamente `
+    mensaje: `usuario @${nombre + apellido} creado exitosamente `,
+    response
   })
 })
 
