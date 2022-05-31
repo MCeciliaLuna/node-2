@@ -1,5 +1,5 @@
+require('./database/db')
 const express = require('express');
-const req = require('express/lib/request');
 const app = express()
 
 const User = require('./models/usuario')
