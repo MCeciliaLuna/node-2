@@ -1,9 +1,14 @@
 const express = require('express')
 const app = express()
 
+require('./database/db')
+
 const user = require('./routes/users')
 
 const port = 8000
+
+app.use(express.json())
+app.use(express.urlencoded())
 
 app.get('/', (req, res) => {
   res.json({
@@ -11,7 +16,7 @@ app.get('/', (req, res) => {
   })
 })
 
-app.use('/user', user)
+app.post('/user', user)
 
 
 app.listen(port, () => {
