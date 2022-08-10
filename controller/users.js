@@ -1,7 +1,13 @@
 const User = require('../models/users')
  
  const getUsers = async(req,res) => {
-  res.send('Recibió la data del controlador')
+  const users = await User.find({})
+
+  console.log(users)
+  res.json({
+    message: 'Usuarios obtenidos exitosamente',
+    users
+  })
  }
 
   const createUsers = async(req,res) => {
@@ -18,7 +24,7 @@ const User = require('../models/users')
       await newUser.save()
   
        res.json({
-         message:"Usuario creado exitosamente",
+         message: `Usuario ${nombre} creado exitosamente`,
         })
     } catch (error) {
       console.error(error)
@@ -26,13 +32,59 @@ const User = require('../models/users')
     
     }
 
-    const deleteUser = (req,res) => {
-      const { id } = req.params
+    const deleteUser = async(req,res) => {
+      const { id } = req.body
 
-      console.log(id)
-      res.json({
-        "message": `Usuario ${id} eliminado`
-      })
+      try {
+        await User.findOneAndDelete(id)
+        
+        console.log(id)
+        res.json({
+          "message": `Usuario ${id} eliminado`
+        })
+      } catch (error) {
+        console.error(error)
+      }
+
+      
     }
 
- module.exports = { getUsers, createUsers, deleteUser }
+    const updateUser = async(req,res) => {
+        const { id, nuevoNombre } = req.body
+    
+        try {
+    
+          const userUpdated = await User.findByIdAndUpdate(id, {nombre: nuevoNombre})
+      
+          res.json({
+            message: "usuario modificado exitosamente",
+            userUpdated
+          })
+    
+        } catch (error) {
+         console.error(error) 
+        }
+    
+      }
+
+const updateAllUser = async(req,res) => {
+  const { id, nombre, dni, edad, email } = req.body
+
+  try {
+    const userUpdated = await User.findByIdAndUpdate(id, {
+      nombre,
+      dni,
+      edad,
+      email
+    })
+
+    res.json({
+      message: "usuario modificado exitosamente",
+      userUpdated
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+ module.exports = { getUsers, createUsers, deleteUser, updateUser, updateAllUser }
