@@ -1,4 +1,6 @@
-const User = require('../models/users')
+const User = require('../models/users');
+const bcrypt = require('bcrypt');
+
  
  const getUsers = async(req,res) => {
   const users = await User.find({})
@@ -11,7 +13,12 @@ const User = require('../models/users')
  }
 
   const createUsers = async(req,res) => {
-    const { nombre, dni, edad, email } = req.body
+    const { nombre, dni, edad, email, password} = req.body
+
+    const saltRound = 15;
+
+  const passEncrypted = bcrypt.hashSync(password, saltRound );
+  
 
     try {
       const newUser = new User({
@@ -19,6 +26,7 @@ const User = require('../models/users')
         dni,
         edad,
         email,
+        password : passEncrypted,
       })
   
       await newUser.save()
@@ -87,4 +95,29 @@ const updateAllUser = async(req,res) => {
   }
 }
 
- module.exports = { getUsers, createUsers, deleteUser, updateUser, updateAllUser }
+const login = async(req,res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email })
+    const result = bcrypt.compareSync(password, user.password)
+
+    if (result) {
+      res.json({
+        message: "usuario logueado exitosamente",
+        result
+      }) 
+    } else {
+      res.json({
+        message: "usuario o contraseña incorrecta"
+      })
+    }
+  
+  } catch (error) {
+    console.error(error)
+  }
+
+  
+}
+
+ module.exports = { getUsers, createUsers, deleteUser, updateUser, updateAllUser, login }
