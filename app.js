@@ -11,13 +11,9 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 app.get('/get', user)
-
 app.post('/user', user)
-
 app.delete('/delete', user)
-
 app.patch('/patch', user)
-
 app.put('/put', user)
 
 
