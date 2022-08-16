@@ -1,4 +1,9 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
+
+const secretKey = process.env.SECRET_KEY
+
+console.log(secretKey)
 
 const jwtValidator = async(req,res, next) => {
   const { accessToken } = req.body
@@ -6,7 +11,7 @@ const jwtValidator = async(req,res, next) => {
   console.log(accessToken)
 
   try {
-    const verify = jwt.verify(accessToken, 'cecilia1234')
+    const verify = jwt.verify(accessToken, secretKey)
 
     console.log(verify)
 

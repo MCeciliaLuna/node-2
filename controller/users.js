@@ -1,6 +1,9 @@
+require('dotenv').config()
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+
+const secretKey = process.env.SECRET_KEY
 
  
  const getUsers = async(req,res) => {
@@ -104,7 +107,7 @@ const login = async(req,res) => {
     const result = bcrypt.compareSync(password, user.password)
 
     if (result) {
-      const token = jwt.sign({ user }, 'cecilia1234', { expiresIn: '5000' })
+      const token = jwt.sign({ user }, secretKey, { expiresIn: '5000' })
 
       res.json({
         message: "usuario logueado exitosamente",

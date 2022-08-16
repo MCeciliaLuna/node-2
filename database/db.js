@@ -1,8 +1,11 @@
+require('dotenv').config()
 const mongoose = require('mongoose');
+
+const database = process.env.DB
 
 const connectDb = async() => {
    try {
-     mongoose.connect('mongodb+srv://PruebaBE:PruebaBE@comision24i.5xhiyrc.mongodb.net/?retryWrites=true&w=majority')
+     mongoose.connect(database)
      console.log('Db conectada')
    } catch (error) {
      console.error(error)
