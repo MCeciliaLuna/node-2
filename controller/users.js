@@ -1,5 +1,6 @@
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
  
  const getUsers = async(req,res) => {
@@ -103,9 +104,12 @@ const login = async(req,res) => {
     const result = bcrypt.compareSync(password, user.password)
 
     if (result) {
+      const token = jwt.sign({ user }, 'cecilia1234')
+
       res.json({
         message: "usuario logueado exitosamente",
-        result
+        result,
+        token
       }) 
     } else {
       res.json({
