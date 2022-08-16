@@ -42,7 +42,7 @@ const jwt = require('jsonwebtoken')
     }
 
     const deleteUser = async(req,res) => {
-      const { id } = req.body
+      const { id, accessToken } = req.body
 
       try {
         await User.findOneAndDelete(id)
@@ -104,7 +104,7 @@ const login = async(req,res) => {
     const result = bcrypt.compareSync(password, user.password)
 
     if (result) {
-      const token = jwt.sign({ user }, 'cecilia1234')
+      const token = jwt.sign({ user }, 'cecilia1234', { expiresIn: '5000' })
 
       res.json({
         message: "usuario logueado exitosamente",
