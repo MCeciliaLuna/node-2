@@ -9,4 +9,6 @@ const user = new Schema ({
   password: String
 })
 
+
+
 module.exports = model('User', user) 

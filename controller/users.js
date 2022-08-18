@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const secretKey = process.env.SECRET_KEY
 
  
- const getUsers = async(req,res) => {
+ const getUsers = async(req,res) => { //OBTENER USUARIOS
   const users = await User.find({})
 
   console.log(users)
@@ -16,7 +16,7 @@ const secretKey = process.env.SECRET_KEY
   })
  }
 
-  const createUsers = async(req,res) => {
+  const createUsers = async(req,res) => { //CREAR USUARIO
     const { nombre, dni, edad, email, password} = req.body
 
     const saltRound = 15;
@@ -44,7 +44,7 @@ const secretKey = process.env.SECRET_KEY
     
     }
 
-    const deleteUser = async(req,res) => {
+    const deleteUser = async(req,res) => { //ELIMINAR USUARIO
       const { id, accessToken } = req.body
 
       try {
@@ -61,7 +61,7 @@ const secretKey = process.env.SECRET_KEY
       
     }
 
-    const updateUser = async(req,res) => {
+    const updateUser = async(req,res) => { //CAMBIAR UNA SOLA CARACTERISTICA DE USUARIO
         const { id, nuevoNombre } = req.body
     
         try {
@@ -79,7 +79,7 @@ const secretKey = process.env.SECRET_KEY
     
       }
 
-const updateAllUser = async(req,res) => {
+const updateAllUser = async(req,res) => { // CAMBIAR TODO EL USUARIO
   const { id, nombre, dni, edad, email } = req.body
 
   try {
@@ -99,7 +99,7 @@ const updateAllUser = async(req,res) => {
   }
 }
 
-const login = async(req,res) => {
+const login = async(req,res) => { //LOGIN
   const { email, password } = req.body;
 
   try {
@@ -107,7 +107,7 @@ const login = async(req,res) => {
     const result = bcrypt.compareSync(password, user.password)
 
     if (result) {
-      const token = jwt.sign({ user }, secretKey, { expiresIn: '5000' })
+      const token = jwt.sign({ user }, secretKey)
 
       res.json({
         message: "usuario logueado exitosamente",
