@@ -17,7 +17,7 @@ const secretKey = process.env.SECRET_KEY
  }
 
   const createUsers = async(req,res) => { //CREAR USUARIO
-    const { nombre, dni, edad, email, password} = req.body
+    const { nombre, dni, edad, email, password, accessToken} = req.body
 
     const saltRound = 15;
 
@@ -62,7 +62,7 @@ const secretKey = process.env.SECRET_KEY
     }
 
     const updateUser = async(req,res) => { //CAMBIAR UNA SOLA CARACTERISTICA DE USUARIO
-        const { id, nuevoNombre } = req.body
+        const { id, nuevoNombre, accessToken } = req.body
     
         try {
     
@@ -80,7 +80,7 @@ const secretKey = process.env.SECRET_KEY
       }
 
 const updateAllUser = async(req,res) => { // CAMBIAR TODO EL USUARIO
-  const { id, nombre, dni, edad, email } = req.body
+  const { id, nombre, dni, edad, email, accessToken } = req.body
 
   try {
     const userUpdated = await User.findByIdAndUpdate(id, {
